@@ -14,6 +14,7 @@ import {
   Edit3
 } from 'lucide-react';
 import { ProfileData } from '../types/portfolio';
+import { normalizeImageUrl } from '../data/defaultPortfolio';
 import { ThreeCanvas } from './ThreeCanvas';
 
 interface HeroProps {
@@ -78,15 +79,17 @@ export const Hero: React.FC<HeroProps> = ({ profile, onOpenAiChat }) => {
             <div className="flex items-center gap-4">
               {/* Profile Avatar with Glass Ring */}
               <div className="relative group shrink-0">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-500 shadow-[0_0_25px_rgba(56,189,248,0.35)]">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-500 shadow-[0_0_25px_rgba(56,189,248,0.35)] flex items-center justify-center bg-slate-900">
                   <img
-                    src={profile.avatarUrl}
+                    src={normalizeImageUrl(profile.avatarUrl)}
                     alt={profile.name}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover rounded-[14px] bg-slate-900"
+                    className="w-full h-full object-cover rounded-[14px]"
                     onError={(e) => {
-                      // Fallback gradient if path fails
-                      (e.target as HTMLElement).style.display = 'none';
+                      const target = e.currentTarget;
+                      if (!target.src.endsWith('/avatar.jpg')) {
+                        target.src = '/avatar.jpg';
+                      }
                     }}
                   />
                 </div>

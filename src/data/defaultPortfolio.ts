@@ -1,4 +1,25 @@
 import { ProfileData, Project, SkillCategory, ExperienceItem } from '../types/portfolio';
+import animeAvatar from '../assets/images/anime_developer_avatar_1794393896746.jpg';
+import neuralAiImg from '../assets/images/project_neural_ai_1794391424139.jpg';
+import spatial3dImg from '../assets/images/project_spatial_3d_1794391424513.jpg';
+import fintechImg from '../assets/images/project_fintech_pulse_1794391426192.jpg';
+
+/**
+ * Normalizes GitHub links so they render directly as raw images
+ */
+export function normalizeImageUrl(url: string): string {
+  if (!url) return animeAvatar;
+  // Convert GitHub blob web page URLs to direct raw image URLs
+  // e.g. https://github.com/user/repo/blob/main/photo.jpg -> https://raw.githubusercontent.com/user/repo/main/photo.jpg
+  if (url.includes('github.com') && url.includes('/blob/')) {
+    return url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+  }
+  // Convert GitHub profile URL to direct avatar link (e.g. github.com/username -> github.com/username.png)
+  if (/^https?:\/\/github\.com\/[a-zA-Z0-9_-]+\/?$/.test(url)) {
+    return url.replace(/\/$/, '') + '.png';
+  }
+  return url;
+}
 
 export const DEFAULT_PROFILE: ProfileData = {
   name: 'Akash Rathod',
@@ -7,7 +28,7 @@ export const DEFAULT_PROFILE: ProfileData = {
   about: 'I am a passionate software engineer crafting high-performance full-stack applications and real-time interactive 3D web interfaces. I focus on fluid animations, transparent glassmorphic UI, robust distributed backends, and bridging machine intelligence into consumer-facing digital products.',
   location: 'India',
   availability: 'Open for Select Roles & High-Impact Projects',
-  avatarUrl: '/src/assets/images/anime_developer_avatar_1794393896746.jpg',
+  avatarUrl: 'https://res.cloudinary.com/defb0pgcs/image/upload/v1789891587/akaza-intense-demon-3840x2160-26029_vdotqz.jpg',
   yearsOfExperience: 3,
   projectsCompleted: 24,
   contributions: 1420,
@@ -33,11 +54,11 @@ export const DEFAULT_PROJECTS: Project[] = [
     category: 'AI & 3D',
     tagline: 'Interactive synaptic node playground & multi-model orchestration engine',
     description: 'A cutting-edge visual workflow workspace allowing engineers to simulate neural activations, trace tensor weights in real-time, and execute distributed model inference with sub-10ms browser latency.',
-    image: '/src/assets/images/project_neural_ai_1794391424139.jpg',
+    image: neuralAiImg,
     technologies: ['React 19', 'TypeScript', 'WebGPU', 'Gemini API', 'Tailwind CSS'],
     metrics: '98.6% Accuracy · 14.3k Active Nodes',
     liveUrl: 'https://example.com/demo/aethel',
-    githubUrl: 'https://github.com/username/aethel-workspace',
+    githubUrl: 'https://github.com/akashrathod/aethel-workspace',
     featured: true
   },
   {
@@ -46,11 +67,11 @@ export const DEFAULT_PROJECTS: Project[] = [
     category: 'AI & 3D',
     tagline: 'Procedural WebGL refraction studio and interactive spatial canvas',
     description: 'An avant-garde 3D spatial presentation tool rendering custom geometric meshes, physically based glass refractions, anisotropic reflections, and real-time lighting rigs for high-end product showcases.',
-    image: '/src/assets/images/project_spatial_3d_1794391424513.jpg',
+    image: spatial3dImg,
     technologies: ['Three.js', 'WebGL2', 'GLSL Shaders', 'React', 'Motion'],
     metrics: '60 FPS PBR Loop · Zero External Assets',
     liveUrl: 'https://example.com/demo/spatial-prism',
-    githubUrl: 'https://github.com/username/spatial-canvas-3d',
+    githubUrl: 'https://github.com/akashrathod/spatial-canvas-3d',
     featured: true
   },
   {
@@ -59,11 +80,11 @@ export const DEFAULT_PROJECTS: Project[] = [
     category: 'Fintech',
     tagline: 'High-frequency algorithmic liquidity terminal & market depth viewer',
     description: 'Ultra-low latency institutional trading interface monitoring global market order books, volatility spreads, risk metrics (VaR 84.5%), and neural buy/sell signals with live WebSocket streaming.',
-    image: '/src/assets/images/project_fintech_pulse_1794391426192.jpg',
+    image: fintechImg,
     technologies: ['React', 'TypeScript', 'WebSockets', 'Canvas API', 'Tailwind CSS'],
     metrics: '+18.42% Alpha Strategy · 2.91 Sharpe',
     liveUrl: 'https://example.com/demo/aurora-quant',
-    githubUrl: 'https://github.com/username/aurora-quant-pulse',
+    githubUrl: 'https://github.com/akashrathod/aurora-quant-pulse',
     featured: true
   },
   {
@@ -72,11 +93,11 @@ export const DEFAULT_PROJECTS: Project[] = [
     category: 'Full Stack',
     tagline: 'Self-healing serverless gateway with automatic geo-routing',
     description: 'Lightweight distributed edge proxy engine built for seamless container autoscaling, sub-millisecond edge TLS handshakes, and live canary deployment rollbacks across multi-region clusters.',
-    image: '/src/assets/images/project_spatial_3d_1794391424513.jpg',
+    image: spatial3dImg,
     technologies: ['Go', 'Node.js', 'Docker', 'PostgreSQL', 'Redis'],
     metrics: '99.99% Uptime · 1.2M Req/sec',
     liveUrl: 'https://example.com/demo/vortex-mesh',
-    githubUrl: 'https://github.com/username/vortex-distributed-mesh',
+    githubUrl: 'https://github.com/akashrathod/vortex-distributed-mesh',
     featured: false
   }
 ];
