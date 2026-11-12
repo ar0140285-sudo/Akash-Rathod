@@ -24,10 +24,13 @@ export const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ profil
     }
   ]);
 
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Only scroll internally inside the terminal box if the user has entered commands
+    if (history.length > 1 && terminalContainerRef.current) {
+      terminalContainerRef.current.scrollTop = terminalContainerRef.current.scrollHeight;
+    }
   }, [history]);
 
   const handleCommand = (e: React.FormEvent) => {
@@ -160,7 +163,10 @@ export const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ profil
         </div>
 
         {/* Terminal Screen & Logs */}
-        <div className="p-6 font-mono text-xs sm:text-sm max-h-[380px] min-h-[260px] overflow-y-auto space-y-4 bg-slate-950/40">
+        <div
+          ref={terminalContainerRef}
+          className="p-6 font-mono text-xs sm:text-sm max-h-[380px] min-h-[260px] overflow-y-auto space-y-4 bg-slate-950/40"
+        >
           {history.map((item, idx) => (
             <div key={idx} className="space-y-1">
               <div className="flex items-center gap-2 text-cyan-400">
@@ -170,7 +176,6 @@ export const InteractiveTerminal: React.FC<InteractiveTerminalProps> = ({ profil
               <div className="pl-4">{item.output}</div>
             </div>
           ))}
-          <div ref={terminalEndRef} />
         </div>
 
         {/* Terminal Input Line */}

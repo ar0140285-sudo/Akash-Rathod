@@ -26,11 +26,13 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
   ]);
   const [inputVal, setInputVal] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatScrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
+    if (isOpen && chatScrollContainerRef.current) {
+      chatScrollContainerRef.current.scrollTop = chatScrollContainerRef.current.scrollHeight;
+    }
+  }, [messages, isTyping, isOpen]);
 
   if (!isOpen) return null;
 
@@ -133,7 +135,10 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
         </div>
 
         {/* Messages Scroll Area */}
-        <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-slate-950/30">
+        <div
+          ref={chatScrollContainerRef}
+          className="flex-1 p-6 overflow-y-auto space-y-4 bg-slate-950/30"
+        >
           {messages.map((m, idx) => {
             const isUser = m.role === 'user';
             return (
@@ -179,8 +184,6 @@ export const AiAssistantModal: React.FC<AiAssistantModalProps> = ({
               </div>
             </div>
           )}
-
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Quick starter questions */}

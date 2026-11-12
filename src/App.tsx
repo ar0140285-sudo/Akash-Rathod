@@ -23,6 +23,11 @@ export default function App() {
 
   const [isAiChatOpen, setIsAiChatOpen] = useState(false);
 
+  // Guarantee that page always opens at the top (hero section)
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-[#04060c] text-slate-100 overflow-x-hidden">
       {/* 1. High-Performance Static Ambient Gradient Background (Zero GPU compositor lag) */}
